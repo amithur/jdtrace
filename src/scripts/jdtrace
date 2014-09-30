@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+
+function kill_dtrace_child_of_pid {
+    for pid in "$@"; do
+        if [ `ps -o ppid -p $pid | grep -v PPID` == $jdprocess ]; then
+            kill $pid
+        fi
+    done
+}
+
+function clean_up {
+    echo "catching signal"
+    kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print $2}'`
+    echo done
+    exit 0 
+}
+
+wait_pid() {
+    for pid in "$@"; do
+        while kill -0 "$pid" 2> /dev/null; do
+            sleep 0.5
+        done
+    done
+}
+
+trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
+
+/usr/jdk/jdk1.8.0_11/bin/java -cp  /usr/jdk/jdk1.8.0_11/lib/tools.jar -jar jdtrace_3.jar $*  &
+jdprocess=$!
+echo "waiting for $jdprocess"
+wait_pid $jdprocess
+
