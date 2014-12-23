@@ -243,7 +243,7 @@ class AgentController {
         }
         try {
             sendCommand(pid, cmd);
-            sendCommand(pid, "dump");
+            //sendCommand(pid, "dump");
         } catch (Exception ex) {
             Logger.getLogger(AgentController.class.getName()).log(Level.SEVERE, null, ex);
         }

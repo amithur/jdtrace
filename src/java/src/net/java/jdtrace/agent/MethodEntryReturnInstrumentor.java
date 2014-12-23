@@ -63,7 +63,7 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
              mv.visitMethodInsn(INVOKEINTERFACE, "org/amit/VvmJsdtProvider", "method_entry", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;I)V");
              */
             // and comment out this until the "}" bracket
-            mv.visitFieldInsn(GETSTATIC, "org/amit/VvmJsdtProviderFactory", "provider", "Lorg/amit/VvmJsdtProvider;");
+            mv.visitFieldInsn(GETSTATIC, "net/java/jdtrace/agent/VvmJsdtProviderFactory", "provider", "Lnet/java/jdtrace/agent/VvmJsdtProvider;");
             mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J");
             mv.visitInsn(L2I);
@@ -85,18 +85,19 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
             mv.visitIntInsn(BIPUSH, 7);
             */
              
-            mv.visitMethodInsn(INVOKEINTERFACE, "org/amit/VvmJsdtProvider", "method_entry", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;II)V");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/java/jdtrace/agent/VvmJsdtProvider", "method_entry", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;II)V");
 
         }
 
+        
         /*
          // test probe
-         mv.visitFieldInsn(GETSTATIC, "org/amit/VvmJsdtProviderFactory", "provider", "Lorg/amit/VvmJsdtProvider;");
+         mv.visitFieldInsn(GETSTATIC, "net/java/jdtrace/agent/VvmJsdtProviderFactory", "provider", "Lnet/java/jdtrace/agent/VvmJsdtProvider;");
          //mv.visitFieldInsn(GETSTATIC, "VvmJsdtProviderFactory", "provider", "LVvmJsdtProvider;");
          mv.visitIntInsn(BIPUSH, 17);
          mv.visitLdcInsn("just a string");
          mv.visitIntInsn(BIPUSH, 13);
-         mv.visitMethodInsn(INVOKEINTERFACE, "org/amit/VvmJsdtProvider", "test", "(ILjava/lang/String;I)V");
+         mv.visitMethodInsn(INVOKEINTERFACE, "net/java/jdtrace/agent/VvmJsdtProvider", "test", "(ILjava/lang/String;I)V");
          //mv.visitMethodInsn(INVOKEINTERFACE, "VvmJsdtProvider", "test", "(ILjava/lang/String;I)V");
          */
 
@@ -131,10 +132,10 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
     protected void onMethodExit(int opcode) {
 
         // logger.info("method exit starts: " + methodName);
-        // Hotspot DTrace compliant method entry
+        // Hotspot DTrace compliant method entry    
         ArrayList<Integer> probeIdList = tcd.getProbeIdListForMethodProbe(methodName, "return");
         for (Integer probeId : probeIdList) {
-            mv.visitFieldInsn(GETSTATIC, "org/amit/VvmJsdtProviderFactory", "provider", "Lorg/amit/VvmJsdtProvider;");
+            mv.visitFieldInsn(GETSTATIC, "net/java/jdtrace/agent/VvmJsdtProviderFactory", "provider", "Lnet/java/jdtrace/agent/VvmJsdtProvider;");
             mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J");
             mv.visitInsn(L2I);
@@ -146,7 +147,7 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
              mv.visitLdcInsn(methodSignature);
              mv.visitIntInsn(BIPUSH, methodSignature.length());
              mv.visitIntInsn(BIPUSH, probeId);
-            mv.visitMethodInsn(INVOKEINTERFACE, "org/amit/VvmJsdtProvider", "method_return", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;II)V");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/java/jdtrace/agent/VvmJsdtProvider", "method_return", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;II)V");
             
 //mv.visitMethodInsn(INVOKEINTERFACE, "VvmJsdtProvider", "methodReturn", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;I)V");
         }
@@ -155,7 +156,8 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
          mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
          mv.visitLdcInsn("this is instrumented code at exit of " + methodName);
          mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V");
-        */ 
+         */
+        
         logger.info("method exit ends: " + methodName);
     }
 

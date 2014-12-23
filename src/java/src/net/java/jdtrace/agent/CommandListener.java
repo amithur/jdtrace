@@ -109,6 +109,7 @@ public class CommandListener {
                 cmdExecutor.cleanAfterInstrumentation();
                 break;
             case "deinstrument_all":
+                logger.info("got to case deinstrument_all");
                 cmdExecutor.deinstrumentAll();
                 break;
             case "close_agent":

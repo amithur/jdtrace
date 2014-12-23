@@ -48,8 +48,8 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         "asm-5.0_BETA.jar",
         "asm-commons-5.0_BETA.jar",
         "asm-util-5.0_BETA.jar",
-        "/usr/share/lib/java/dtrace.jar",
-        "jdtraceprov.jar"
+        "/usr/share/lib/java/dtrace.jar"//,
+        //"Instrumentationagent.jar"
     };
     //private static VvmJsdtProvider provider = null;
     private static int port = 5679;
@@ -85,6 +85,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         init(inst);
         final VmDtracePluginAgent agent = new VmDtracePluginAgent();
 
+        
         for (String jarFileName : jarDependencies) {
             logger.info("dependency: " + jarFileName);
             try {
@@ -97,19 +98,36 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
             }
 
         }
+        
 
         //org.amit.VvmJsdtProviderFactory.provider.test(17, "joseph", 18);
-        /*
-        try {
+        
+        
+        //ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
+            //Class pf = sysClassLoader.loadClass("VvmJsdtProviderFactory");
+            
+            /*
+            // I do not perform this provider factory initialization  
+            // because the later call to the class fails, no idea why
+            logger.info("try initialize VvmJsdtProviderFactory");
+            logger.info("VvmJsdtProviderFactory was loaded by " + VvmJsdtProviderFactory.class.getClassLoader());
+            logger.info("VvmJsdtProvider was loaded by " + VvmJsdtProvider.class.getClassLoader());
+            logger.info("provider: " + VvmJsdtProviderFactory.provider);
+            VvmJsdtProviderFactory.init();
+            */
+        
+            /*
+            try {
             logger.info("trying to load org.amit.VvmJsdtProviderFactory");
             Class cp = Class.forName("org.amit.VvmJsdtProvider");
             Class c = Class.forName("org.amit.VvmJsdtProviderFactory");
             logger.info("tried to load org.amit.VvmJsdtProviderFactory, with " + c.getClassLoader());
             logger.info("the provider itself was loaded by  " + cp.getClassLoader());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VmDtracePluginAgent.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
+            } catch (ClassNotFoundException ex) {
+            Logger.getLogger((Level.SEVERE, null, ex);
+            }
+            */
+        
         
 
         //process();

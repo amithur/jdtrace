@@ -65,7 +65,7 @@ public class ClassBytesHelper {
         logger.info("after accept()");
         //hread.dumpStack();
 
-        /*
+        
         // debug:
         logger.info("trying to write /tmp/" + className + ".class");
 
@@ -77,7 +77,7 @@ public class ClassBytesHelper {
         } catch (IOException ex) {
             Logger.getLogger(ClassBytesHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+        
         
 
         logger.info("currentThread name: " + Thread.currentThread().getName());
