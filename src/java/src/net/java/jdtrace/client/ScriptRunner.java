@@ -25,7 +25,7 @@ class ScriptRunner {
     void runScript(String[] args) {
         try {
             String cmd[] = new String[args.length + 1];
-            Runtime.getRuntime().exec("./check_for_dtrace_provider.sh");
+            Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
             System.out.println("Going to wait for " + fileNameToWaitFor);
             Utils.waitUntilFileCreated(fileNameToWaitFor);
             cmd[0] = "/usr/sbin/dtrace";

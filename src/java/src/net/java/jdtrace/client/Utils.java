@@ -69,4 +69,8 @@ public class Utils {
         System.out.println("port found: " + port);
         return port;
     }
+    
+    public static String getJdtraceHome() {
+        return System.getenv("JDTRACE_HOME");
+    }
 }

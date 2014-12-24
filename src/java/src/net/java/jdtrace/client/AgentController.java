@@ -56,11 +56,11 @@ class AgentController {
         Properties props = new Properties();
         FileInputStream in;
         try {
-            in = new FileInputStream("agent-properties");
+            in = new FileInputStream(Utils.getJdtraceHome() + "/" + "agent-properties");
             props.load(in);
             String path = props.getProperty("agent-path");
             if (path != null && !path.isEmpty()) {
-                agentPath = path;
+                agentPath = Utils.getJdtraceHome() + "/" + path;
             }
             String str = props.getProperty("zones");
             if (str != null) {
@@ -213,7 +213,7 @@ class AgentController {
             int port = findPortFor(pid);
             String args = "port=" + port;
             if (agentLibraryPath != null) {
-                args += " libpath=" + agentLibraryPath;
+                args += " libpath=" + Utils.getJdtraceHome() + "/" + agentLibraryPath;
             }
             vm.loadAgent(agentPath, args);
             agentStartedMap.add(pid);
@@ -296,7 +296,7 @@ class AgentController {
 
     String getTargetHost(String pid) {
         String host = "localhost";
-        String cmd = "./gettargethost " + pid;
+        String cmd = Utils.getJdtraceHome() + "/gettargethost " + pid;
         if (findTargetUtil != null)
             cmd = findTargetUtil + " " + pid;
         try {

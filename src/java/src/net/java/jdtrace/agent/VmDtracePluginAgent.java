@@ -48,8 +48,8 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         "asm-5.0_BETA.jar",
         "asm-commons-5.0_BETA.jar",
         "asm-util-5.0_BETA.jar",
-        "/usr/share/lib/java/dtrace.jar"//,
-        //"Instrumentationagent.jar"
+        "/usr/share/lib/java/dtrace.jar",
+        "provider.jar"
     };
     //private static VvmJsdtProvider provider = null;
     private static int port = 5679;
@@ -90,6 +90,10 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
             logger.info("dependency: " + jarFileName);
             try {
                 if (jarFileName.startsWith("asm")) {
+                    jarFileName = asmLibPath + "/" + jarFileName;
+                }
+                else {
+                    // currently other libraries are on the same directory
                     jarFileName = asmLibPath + "/" + jarFileName;
                 }
                 inst.appendToBootstrapClassLoaderSearch(new JarFile(jarFileName));
