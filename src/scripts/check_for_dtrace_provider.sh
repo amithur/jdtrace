@@ -1,7 +1,5 @@
 #!/usr/bin/sh
 
-echo "in launchdtrace.sh $*"
-
 keep_waiting=1
 
 while [ $keep_waiting != 0 ]; do
