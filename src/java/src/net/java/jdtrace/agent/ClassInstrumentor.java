@@ -16,6 +16,7 @@ package net.java.jdtrace.agent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -36,6 +37,7 @@ public class ClassInstrumentor extends ClassVisitor {
     public ClassInstrumentor(ClassVisitor cv, TargetClassDetails cDetails) {
         super(Opcodes.ASM4, cv);
         classDetails = cDetails;
+        logger.setLevel(Level.WARNING);
         logger.info("ClassInstrumentor constructor, " + classDetails.getProbeCallPattern());
         showArgs = false;
         logger.info("construntor of ClassInstrumentor");
@@ -48,7 +50,6 @@ public class ClassInstrumentor extends ClassVisitor {
         cv.visit(version, access, name, signature, superName, interfaces);
         owner = name;
         isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
-        logger.info("instrumenting class (no copiputz) " + name);
     }
     
     private boolean  nameMatchesDetails(String name) {

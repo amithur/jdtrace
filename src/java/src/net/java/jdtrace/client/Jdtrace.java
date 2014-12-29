@@ -51,16 +51,13 @@ public class Jdtrace {
             Utils.deleteFile(agentController.getFileToWaitFor());
             scriptRunner.runScript(argParser.getDtraceArgs());
         }
-        System.out.println("going to send a close message");
         agentController.closeAgent(); // closeAgent() includes deinstrument_all()
-        System.out.println("detaching vms");
         agentController.detachAll();
     }
 
     private static String newScriptName(String scriptFile) {
         String newName;
         int suffixAt = scriptFile.lastIndexOf(".d");
-        System.out.println("length: "+ scriptFile.length());
         if (suffixAt == scriptFile.length() - 2) {
             newName = scriptFile.substring(0, suffixAt) + "_preprocessed.d";
         } 

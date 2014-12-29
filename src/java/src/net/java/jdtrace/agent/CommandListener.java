@@ -23,6 +23,7 @@ public class CommandListener {
 
     public CommandListener(CommandExecutor cmdExe) {
         cmdExecutor = cmdExe;
+        logger.setLevel(Level.WARNING);
     }
 
     public void setPort(int newPort) {

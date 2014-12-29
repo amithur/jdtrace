@@ -53,6 +53,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
     };
     //private static VvmJsdtProvider provider = null;
     private static int port = 5679;
+    private static VvmJsdtProvider prov = null;
     private static String excludedClassPattern[] = {
         "java.lang.management.*",
         "java.lang.Class",
@@ -78,7 +79,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
 
     public static void agentmain(String agentArgs, Instrumentation inst_) {
         inst = inst_;
-        logger.info("here, at agentmain (new)");
+        logger.setLevel(Level.WARNING);
         //methodNames = new ArrayList(128);
         parseArgs(agentArgs);
         redefine = false; // true: redefing, false: retransform
@@ -89,11 +90,10 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         for (String jarFileName : jarDependencies) {
             logger.info("dependency: " + jarFileName);
             try {
-                if (jarFileName.startsWith("asm")) {
-                    jarFileName = asmLibPath + "/" + jarFileName;
+                if (jarFileName.startsWith("/")) {
+                    // if absolute path - use as is
                 }
                 else {
-                    // currently other libraries are on the same directory
                     jarFileName = asmLibPath + "/" + jarFileName;
                 }
                 inst.appendToBootstrapClassLoaderSearch(new JarFile(jarFileName));
@@ -110,14 +110,18 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         //ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
             //Class pf = sysClassLoader.loadClass("VvmJsdtProviderFactory");
             
-            /*
+            
             // I do not perform this provider factory initialization  
             // because the later call to the class fails, no idea why
+            /*
+            logger.setLevel(Level.ALL);
             logger.info("try initialize VvmJsdtProviderFactory");
             logger.info("VvmJsdtProviderFactory was loaded by " + VvmJsdtProviderFactory.class.getClassLoader());
             logger.info("VvmJsdtProvider was loaded by " + VvmJsdtProvider.class.getClassLoader());
             logger.info("provider: " + VvmJsdtProviderFactory.provider);
+            logger.setLevel(Level.WARNING);
             VvmJsdtProviderFactory.init();
+            prov = VvmJsdtProviderFactory.provider;
             */
         
             /*
@@ -247,6 +251,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
             if (inExcludedClasses(c.getName())) {
                 continue;
             }
+            /*
             try {
                 //logger.info("Going to write: " + c.getName() + " to bosty");
                 bosty.write(c.getName());
@@ -254,10 +259,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
             } catch (IOException ex) {
                 Logger.getLogger(VmDtracePluginAgent.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (c.getName().contains("DocListSearchTask")) {
-                logger.info("is " + c.getName() + " matches " + ClassPatternRegexp + "?");
-                logger.info("and the answer is: " + c.getName().matches(ClassPatternRegexp));
-            }
+            */
             if (c.getName().matches(ClassPatternRegexp) && !inst.isModifiableClass(c)) {
                 logger.info("class " + classPattern + " not modifiable");
             }

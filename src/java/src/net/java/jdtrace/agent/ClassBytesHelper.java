@@ -2,7 +2,7 @@ package net.java.jdtrace.agent;
 
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * and open the telmplate in the editor.
  */
 /*
  * To change this template, choose Tools | Templates
@@ -25,7 +25,10 @@ import org.objectweb.asm.ClassWriter;
  */
 public class ClassBytesHelper {
     private static final Logger logger = Logger.getLogger( ClassBytesHelper.class.getName() );
-
+    static {
+        logger.setLevel(Level.WARNING);
+    }
+    
     public static byte[] getClassBytes(File path, String className) {
         FileInputStream is = null;
         byte[] bytes = null;
@@ -56,7 +59,6 @@ public class ClassBytesHelper {
         ClassReader cr = new ClassReader(classBytes);
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassInstrumentor ci = new ClassInstrumentor(cw, classDetails);
-        logger.info("after ClassInstrumentor copiputz");
 
         //org.amit.VvmJsdtProviderFactory.provider.methodEntry((int)Thread.currentThread().getId(), "className", 9, "methodName", 10, "methodSignature", 15);
         // trying to call accept with EXPAND_FRAMES to overcome an issue

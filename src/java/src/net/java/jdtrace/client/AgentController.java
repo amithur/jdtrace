@@ -167,7 +167,6 @@ class AgentController {
     void closeAgent() {
         for (String pid : agentStartedMap) {
             try {
-                System.out.println("send close command to " + pid);
                 sendCommand(pid, COMMANDS.CLOSE);
             } catch (Exception ex) {
                 //Logger.getLogger(AgentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,7 +205,6 @@ class AgentController {
     private void attachAndInitAgent(String pid) {
         try {
             String vmId = pid;
-            System.out.println("attaching vm, pid = " + vmId);
             VirtualMachine vm = VirtualMachine.attach(vmId);
             vms.add(vm);
 
@@ -286,8 +284,6 @@ class AgentController {
         outToServer.writeBytes(cmd + '\n');
         answer = inFromServer.readLine();
 
-        System.out.println("FROM SERVER: " + answer);
-
         outToServer.close();
         inFromServer.close();
         clientSocket.close();
@@ -304,7 +300,6 @@ class AgentController {
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             p.waitFor();
             int est = p.exitValue();
-            System.out.println("exitStatus = " + est);
             while (!br.ready()) {
             }
             String cmdOutput = br.readLine();

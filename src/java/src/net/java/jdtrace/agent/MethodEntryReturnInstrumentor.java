@@ -9,6 +9,7 @@ package net.java.jdtrace.agent;
  * and open the template in the editor.
  */
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -30,6 +31,7 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
             MethodVisitor mv, String signature, String classOwner,
             TargetClassDetails t) {
         super(ASM4, mv, access, name, desc);
+        logger.setLevel(Level.WARNING);
         logger.info("MethodEntryReturnInstrumetor constructor");
         methodName = name;
         methodSignature = signature == null ? "null" : signature;

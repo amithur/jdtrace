@@ -66,7 +66,6 @@ public class Utils {
             }
             port++;
         }
-        System.out.println("port found: " + port);
         return port;
     }
     

@@ -26,7 +26,6 @@ class ScriptRunner {
         try {
             String cmd[] = new String[args.length + 1];
             Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
-            System.out.println("Going to wait for " + fileNameToWaitFor);
             Utils.waitUntilFileCreated(fileNameToWaitFor);
             cmd[0] = "/usr/sbin/dtrace";
             System.arraycopy(args, 0, cmd, 1, args.length);
@@ -40,12 +39,11 @@ class ScriptRunner {
                 System.out.println(line);
             }
             while ((line = err.readLine()) != null) {
-                System.out.println("Err: " + line);
+                System.err.println(line);
             }
             in.close();
             err.close();
             p.waitFor();
-            System.out.println("here at script runner, dtrace finished");
         } catch (IOException ex) {
             Logger.getLogger(ScriptRunner.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {

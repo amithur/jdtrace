@@ -71,7 +71,6 @@ class ScriptWriter {
     }
 
     private boolean isPredicate(String line) {
-        System.out.println("Yes, predicate! " + line);
         return line.matches("^\\s*\\/.*\\/\\s*$");
     }
 

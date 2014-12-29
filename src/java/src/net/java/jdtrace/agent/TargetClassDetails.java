@@ -6,6 +6,7 @@ package net.java.jdtrace.agent;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -20,6 +21,7 @@ public class TargetClassDetails {
         TargetClassDetails(Class c) {
             classObj = c;
             methodNamePatterns = new ArrayList();
+            logger.setLevel(Level.WARNING);
         }
 
         public Class getClassObj() {

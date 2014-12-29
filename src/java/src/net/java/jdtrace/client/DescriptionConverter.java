@@ -77,9 +77,7 @@ class DescriptionConverter {
             methodPattern = tokens[2];
         if (origProbeDescription.matches(".*,\\s*$")) {
             endsWithComma = true;
-            System.out.println("tokens[3] before: " + tokens[3]);
             tokens[3] = tokens[3].substring(0, tokens[3].indexOf(","));
-            System.out.println("tokens[3] after: " + tokens[3]);
         }
         if (tokens[3].isEmpty())
             probeName = ".*";

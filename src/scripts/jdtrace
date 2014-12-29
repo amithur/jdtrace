@@ -13,9 +13,7 @@ function kill_dtrace_child_of_pid {
 }
 
 function clean_up {
-    echo "catching signal"
     kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print $2}'`
-    echo done
     exit 0 
 }
 
@@ -29,8 +27,7 @@ wait_pid() {
 
 trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
 
-${JAVA_BIN} -cp  /usr/jdk/jdk1.8.0_20/lib/tools.jar -jar ${JDTRACE_HOME}/jdtrace_3_1.jar $*  &
+${JAVA_BIN} -cp  /usr/jdk/jdk1.8.0_20/lib/tools.jar -jar ${JDTRACE_HOME}/lib/jdtrace_1.0.jar $*  &
 jdprocess=$!
-echo "waiting for $jdprocess"
 wait_pid $jdprocess
 
