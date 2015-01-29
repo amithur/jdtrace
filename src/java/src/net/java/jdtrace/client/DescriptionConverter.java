@@ -57,7 +57,7 @@ class DescriptionConverter {
         String [] tokens;
         tokens = origProbeDescription.split(":", 4);
         if (tokens.length < 4) return; // not good... should throw an exception
-        if (tokens[0].matches("jsdt.*")) {
+        if (tokens[0].matches("jdtrace.*")) {
             pidSubs = tokens[0].substring(4);
             if (pidSubs.matches("\\$\\d+")) {
                 pid = argParser.getFreeArg(new Integer(pidSubs.substring(1)).intValue());
