@@ -96,7 +96,7 @@ class PreProcessor {
     }
 
     private boolean isJsdtProbeDescription(String line) {
-        return line.matches("^\\s*jsdt.*:.*");
+        return line.matches("^\\s*jdtrace.*:.*");
     }
 
     private void markProxtGeneratedFor(String pid, String cl, String m, String name) {
