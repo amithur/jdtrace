@@ -1,3 +1,0 @@
-agent-path : lib/Instrumentationagent.jar
-file-to-wait-for : .stop_wait_jdtrace
-agent-library-path : lib
