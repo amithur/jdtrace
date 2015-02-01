@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+SCRIPT_DIR=`dirname ${0}`
+
+. ${SCRIPT_DIR}/jdtrace.properties
+
+function kill_dtrace_child_of_pid {
+    for pid in "$@"; do
+        if [ `ps -o ppid -p $pid | grep -v PPID` == $jdprocess ]; then
+	    kill $pid
+	fi
+    done
+}
+
+function clean_up {
+    kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print $2}'`
+    exit 0 
+}
+
+wait_pid() {
+    for pid in "$@"; do
+        while kill -0 "$pid" 2> /dev/null; do
+            sleep 0.5
+        done
+    done
+}
+
+trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
+
+${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace_1.0.jar net/java/jdtrace/client/Jdtrace $* &
+jdprocess=$!
+wait_pid $jdprocess
+

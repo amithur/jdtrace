@@ -1,0 +1,13 @@
+#!/bin/sh
+javac -d . -cp . CommandExecutor.java
+javac -d . -cp . CommandListener.java
+javac -d . -cp . TargetClassDetails.java
+javac -d . -cp .:/home/amit/asm5/asm-5.0_BETA/lib/asm-5.0_BETA.jar:/home/amit/asm5/asm-5.0_BETA/lib/asm-commons-5.0_BETA.jar MethodEntryReturnInstrumentor.java
+javac -d . -cp .:/home/amit/asm5/asm-5.0_BETA/lib/asm-5.0_BETA.jar:/home/amit/asm5/asm-5.0_BETA/lib/asm-commons-5.0_BETA.jar:/home/amit/asm5/asm-5.0_BETA/lib/asm-util-5.0_BETA.jar:. ClassInstrumentor.java
+javac -d . -cp .:/home/amit/asm5/asm-5.0_BETA/lib/asm-5.0_BETA.jar:/home/amit/asm5/asm-5.0_BETA/lib/asm-commons-5.0_BETA.jar:/home/amit/asm5/asm-5.0_BETA/lib/asm-util-5.0_BETA.jar:. ClassBytesHelper.java
+javac -d . -cp . VmDtracePluginAgent.java
+rm net/java/jdtrace/agent/VvmJsdtProvider*.class
+jar cvfm Instrumentationagent.jar manifest.mf net/java/jdtrace/agent/*.class
+javac -d . -cp . VvmJsdtProvider.java
+javac -d . -cp . VvmJsdtProviderFactory.java
+jar cvf provider.jar net/java/jdtrace/agent/VvmJsdtProvider*.class
