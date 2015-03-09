@@ -27,8 +27,12 @@ Download and Install
 
 How to Run
 ----------
-Run the same as dtrace. See current limitation below, though.
-For example
+Run as the same user of the target Java process[es], the same way as running dtrace. See current limitation below, though.
+The user who runs jdtrace should have DTrace privileges:
+To grant DTrace privileges to a user, edit/add a line for the user in /etc/user_attr ,like
+user-name::::defaultpriv=basic,dtrace_user,dtrace_proc,dtrace_kernel
+
+Run jdtrace, like:
 # jdtrace -s <jdtrace-script-name>
 <jtrace-script-name> is a dtrace script which uses the jdtrace provider and JDTrace extensions
 
