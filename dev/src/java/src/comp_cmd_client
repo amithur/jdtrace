@@ -1,12 +1,15 @@
 #!/bin/sh
-javac -d . -cp . net/java/jdtrace/client/AgentController.java
-javac -d . -cp . net/java/jdtrace/client/ArgParser.java
-javac -d . -cp . net/java/jdtrace/client/DescriptionConverter.java
-javac -d . -cp . net/java/jdtrace/client/InstrumentationItem.java
-javac -d . -cp . net/java/jdtrace/client/Jdtrace.java
-javac -d . -cp . net/java/jdtrace/client/PreProcessor.java
-javac -d . -cp . net/java/jdtrace/client/ScriptReader.java
-javac -d . -cp . net/java/jdtrace/client/ScriptRunner.java
-javac -d . -cp . net/java/jdtrace/client/ScriptWriter.java
-javac -d . -cp . net/java/jdtrace/client/Utils.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/AgentController.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/ArgParser.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/CmdlineToFile.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/DescriptionConverter.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/InstrumentationItem.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/Jdtrace.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/PreProcessor.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/ScriptReader.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/ScriptRunner.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/ScriptWriter.java
+javac -d . -cp .:/usr/jdk/jdk1.8.0_65/lib/tools.jar net/java/jdtrace/client/Utils.java
 jar cvf jdtrace.jar net/java/jdtrace/client/*.class
+cp jdtrace.jar ../../../lib/
+

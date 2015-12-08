@@ -120,6 +120,7 @@ class AgentController {
         preprocessList();
         boolean areZonePids = false;
         for (String pid : patternsListPerPid.keySet()) {
+            System.out.println("calling getTargetHost(" + pid +")");
             String host = getTargetHost(pid);
             if (host.equals("localhost")) {
                 attachAndInitAgent(pid);
@@ -241,6 +242,7 @@ class AgentController {
         }
         try {
             sendCommand(pid, cmd);
+            System.out.println("AgentConroller, sent command to " + pid +": " + cmd);
             //sendCommand(pid, "dump");
         } catch (Exception ex) {
             Logger.getLogger(AgentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -282,7 +284,9 @@ class AgentController {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         outToServer.writeBytes(cmd + '\n');
+        System.out.println("sent: " + cmd);
         answer = inFromServer.readLine();
+        System.out.println("answer: " + answer);
 
         outToServer.close();
         inFromServer.close();
@@ -297,6 +301,7 @@ class AgentController {
             cmd = findTargetUtil + " " + pid;
         try {
             Process p = Runtime.getRuntime().exec(cmd);
+            System.out.println("Going to exec: " + cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             p.waitFor();
             int est = p.exitValue();

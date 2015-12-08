@@ -72,4 +72,46 @@ public class Utils {
     public static String getJdtraceHome() {
         return System.getenv("JDTRACE_HOME");
     }
+    
+    public java.io.File createTempFile() {
+        java.io.File tmpfile = null;
+        try {
+            tmpfile = java.io.File.createTempFile("jdtrace", ".d");
+        } catch (IOException ex) {
+            Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tmpfile;
+    }
+    
+    public void removeTmpFile(java.io.File file) {
+        file.delete();
+    }
+    
+    public static String newScriptName(String scriptFile) {
+        String newName;
+        int suffixAt = scriptFile.lastIndexOf(".d");
+        if (suffixAt == scriptFile.length() - 2) {
+            newName = scriptFile.substring(0, suffixAt) + "_preprocessed.d";
+        } 
+        else {
+            newName = scriptFile + "_preprocesed";
+        }
+        return newName;
+    }
+    
+    public static String findReplaceScriptFile(String[] args) {
+        String scriptFile = null;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-s")) {
+                if (i + 1 == args.length) return null;
+                scriptFile  = args[i + 1];
+                args[i + 1] = newScriptName(scriptFile);
+                break;
+            }
+            else if (args[i].equals("-n") || args[i].equals("-f") || args[i].equals("-m")) {
+                scriptFile = CmdlineToFile.getInstance().getFile().getPath();
+            }
+        }
+        return scriptFile;
+    }
 }
