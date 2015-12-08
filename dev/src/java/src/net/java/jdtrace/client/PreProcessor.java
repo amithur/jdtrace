@@ -19,6 +19,7 @@ class PreProcessor {
     ArgParser argParser = null;
     private HashSet<String> proxiesGenerated;
     private int curProbeId;
+    private boolean jdtraceProbesToProcess;
 
     PreProcessor(String scriptFile, String newScriptFile, String[] args) {
         originalFile = scriptFile;
@@ -26,10 +27,16 @@ class PreProcessor {
         proxiesGenerated = new HashSet();
         argParser = new ArgParser(args);
         curProbeId = 0;
+        jdtraceProbesToProcess = false;
     }
 
     ArgParser getArgParser() {
         return argParser;
+    }
+    
+    boolean areJdtraceProbesToProcess()
+    {
+        return jdtraceProbesToProcess;
     }
 
     List<InstrumentationItem> process() {
@@ -41,6 +48,7 @@ class PreProcessor {
         ArrayList<String> linesBuffer = new ArrayList();
         while ((line = scriptReader.nextLine()) != null) {
             if (isJsdtProbeDescription(line)) {
+                jdtraceProbesToProcess = true;
                 DescriptionConverter descriptionConverter = new DescriptionConverter(line, argParser);
                 line = descriptionConverter.convert(line);
                 if (!proxyProbeAddedFor(line)) {

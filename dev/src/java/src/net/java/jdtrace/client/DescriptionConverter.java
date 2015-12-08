@@ -62,6 +62,10 @@ class DescriptionConverter {
             if (pidSubs.matches("\\$\\d+")) {
                 pid = argParser.getFreeArg(new Integer(pidSubs.substring(1)).intValue());
             }
+            else if (pidSubs.matches("\\d+")) {
+                pid = pidSubs;
+                pid.trim();
+            }
             else if (pidSubs.equals("$target")) 
                 pid = argParser.getTarget();
         } else {

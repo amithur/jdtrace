@@ -12,19 +12,6 @@ import java.util.List;
  */
 public class Jdtrace {
 
-    private static String findReplaceScriptFile(String[] args) {
-        String scriptFile = null;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-s")) {
-                if (i + 1 == args.length) return null;
-                scriptFile  = args[i + 1];
-                args[i + 1] = newScriptName(scriptFile);
-                break;
-            }
-        }
-        return scriptFile;
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -32,12 +19,12 @@ public class Jdtrace {
     
     public static void main(String[] args) {
         // TODO code application logic here
-        String scriptFile = findReplaceScriptFile(args);
-        String newScriptFile = newScriptName(scriptFile);
+        String scriptFile = Utils.findReplaceScriptFile(args);
+        String newScriptFile = Utils.newScriptName(scriptFile);
         PreProcessor preProcessor = new PreProcessor(scriptFile, newScriptFile, args);
         ArgParser argParser = preProcessor.getArgParser();
-        ScriptRunner scriptRunner = new ScriptRunner();
         List<InstrumentationItem> instrumenationList = preProcessor.process();
+        ScriptRunner scriptRunner = new ScriptRunner(preProcessor.areJdtraceProbesToProcess());
         AgentController agentController = new AgentController(instrumenationList);
         if (argParser.getPort() != 0)
             agentController.setInitialPort(argParser.getPort());
@@ -54,17 +41,4 @@ public class Jdtrace {
         agentController.closeAgent(); // closeAgent() includes deinstrument_all()
         agentController.detachAll();
     }
-
-    private static String newScriptName(String scriptFile) {
-        String newName;
-        int suffixAt = scriptFile.lastIndexOf(".d");
-        if (suffixAt == scriptFile.length() - 2) {
-            newName = scriptFile.substring(0, suffixAt) + "_preprocessed.d";
-        } 
-        else {
-            newName = scriptFile + "_preprocesed";
-        }
-        return newName;
-    }
-
 }

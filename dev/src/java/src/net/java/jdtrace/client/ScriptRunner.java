@@ -17,16 +17,21 @@ import java.util.logging.Logger;
 class ScriptRunner {
 
     private String fileNameToWaitFor;
+    private boolean waitForJdtraceProvider;
 
-    public ScriptRunner() {
+    public ScriptRunner(boolean waitJdtraceProvider) {
         fileNameToWaitFor = null;
+        waitForJdtraceProvider = waitJdtraceProvider;
     }
 
     void runScript(String[] args) {
         try {
             String cmd[] = new String[args.length + 1];
-            Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
-            Utils.waitUntilFileCreated(fileNameToWaitFor);
+            if (waitForJdtraceProvider) {
+                Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
+                Utils.waitUntilFileCreated(fileNameToWaitFor);
+                
+            }
             cmd[0] = "/usr/sbin/dtrace";
             System.arraycopy(args, 0, cmd, 1, args.length);
             Process p = Runtime.getRuntime().exec(cmd);
