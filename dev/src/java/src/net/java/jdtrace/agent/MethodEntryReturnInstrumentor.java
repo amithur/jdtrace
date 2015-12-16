@@ -1,4 +1,4 @@
-package net.java.jdtrace.agent;
+  package net.java.jdtrace.agent;
 
 /*
  * To change this template, choose Tools | Templates
@@ -50,20 +50,6 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
             logger.info("onMethodEnter: " + probeId);
             // insert the bottom code per probe id
             // Hotspot DTrace compliant method entry
-            /* remove this comment
-             mv.visitFieldInsn(GETSTATIC, "org/amit/VvmJsdtProviderFactory", "provider", "Lorg/amit/VvmJsdtProvider;");
-             mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
-             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Thread", "getId", "()J");
-             mv.visitInsn(L2I);
-             mv.visitLdcInsn(className);
-             mv.visitIntInsn(BIPUSH, className.length());
-             mv.visitLdcInsn(methodName);
-             mv.visitIntInsn(BIPUSH, methodName.length());
-             mv.visitLdcInsn(methodSignature);
-             mv.visitIntInsn(BIPUSH, methodSignature.length());
-             mv.visitIntInsn(BIPUSH, probeId);
-             mv.visitMethodInsn(INVOKEINTERFACE, "org/amit/VvmJsdtProvider", "method_entry", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;I)V");
-             */
             // and comment out this until the "}" bracket
             mv.visitFieldInsn(GETSTATIC, "net/java/jdtrace/agent/VvmJsdtProviderFactory", "provider", "Lnet/java/jdtrace/agent/VvmJsdtProvider;");
             mv.visitMethodInsn(INVOKESTATIC, "java/lang/Thread", "currentThread", "()Ljava/lang/Thread;");
@@ -77,15 +63,6 @@ public class MethodEntryReturnInstrumentor extends AdviceAdapter {
              mv.visitLdcInsn(methodSignature);
              mv.visitIntInsn(BIPUSH, methodSignature.length());
              mv.visitIntInsn(BIPUSH, probeId);
-            /*
-            mv.visitInsn(ACONST_NULL);
-            mv.visitInsn(ICONST_3);
-            mv.visitInsn(ACONST_NULL);
-            mv.visitInsn(ICONST_5);
-            mv.visitInsn(ACONST_NULL);
-            mv.visitIntInsn(BIPUSH, 6);
-            mv.visitIntInsn(BIPUSH, 7);
-            */
              
             mv.visitMethodInsn(INVOKEINTERFACE, "net/java/jdtrace/agent/VvmJsdtProvider", "method_entry", "(ILjava/lang/String;ILjava/lang/String;ILjava/lang/String;II)V");
 

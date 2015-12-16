@@ -31,6 +31,18 @@ public class Utils {
             sleep(500);
         } while (!file.exists());
     }
+    
+    public static boolean waitUntilFileCreated(String filePath, int timeoutMillisec) {
+        File file;
+        int elapsed = 0;
+        do {
+            file = new File(filePath);
+            sleep(500);
+            elapsed += 500;
+            if (elapsed >= timeoutMillisec) {return false;}
+        } while (!file.exists());
+        return true;
+    }
 
     public static void waitUntilFileDeleted(String filePath) {
         File file;

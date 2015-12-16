@@ -25,12 +25,17 @@ class ScriptRunner {
     }
 
     void runScript(String[] args) {
+        boolean success;
         try {
             String cmd[] = new String[args.length + 1];
             if (waitForJdtraceProvider) {
                 Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
-                Utils.waitUntilFileCreated(fileNameToWaitFor);
-                
+                success = Utils.waitUntilFileCreated(fileNameToWaitFor, 8000);
+                if (! success) {
+                    // should throw an exception!
+                    System.err.println("DTrace provider creation timeout");
+                    System.exit(1);
+                }
             }
             cmd[0] = "/usr/sbin/dtrace";
             System.arraycopy(args, 0, cmd, 1, args.length);

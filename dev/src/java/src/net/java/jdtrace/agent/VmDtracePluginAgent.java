@@ -60,7 +60,6 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         "java.lang.System",
         "java.lang.Thread"
     };
-    //private static String asmLibPath = "/export/home/amit/asm5/asm-5.0_BETA/lib";
     private static String asmLibPath = "/home/amit/javaOne/jdk8/agent/asm-lib";
     private static final Logger logger = Logger.getLogger(VmDtracePluginAgent.class.getName() );
 
@@ -104,12 +103,6 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
         }
         
 
-        //org.amit.VvmJsdtProviderFactory.provider.test(17, "joseph", 18);
-        
-        
-        //ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
-            //Class pf = sysClassLoader.loadClass("VvmJsdtProviderFactory");
-            
             
             // I do not perform this provider factory initialization  
             // because the later call to the class fails, no idea why

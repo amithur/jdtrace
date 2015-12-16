@@ -305,7 +305,19 @@ class AgentController {
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             p.waitFor();
             int est = p.exitValue();
-            while (!br.ready()) {
+            int elapsed;
+            for (elapsed = 0; elapsed < 2000; elapsed += 10) {
+                if (br.ready()) {
+                    break;
+                }
+                else {
+                    Utils.sleep(10);
+                }
+            }
+            if (elapsed >= 2000) {
+                // should throw an exception
+                System.err.println("looking for pid " + pid + " timeout");
+                System.exit(1);
             }
             String cmdOutput = br.readLine();
             if (!cmdOutput.equalsIgnoreCase("global")) {

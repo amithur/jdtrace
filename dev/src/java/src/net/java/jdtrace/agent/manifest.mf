@@ -1,5 +1,5 @@
-Premain-Class: org.amit.VmDtracePluginAgent
-Agent-Class: org.amit.VmDtracePluginAgent
+Premain-Class: net.java.jdtrace.agent.VmDtracePluginAgent
+Agent-Class: net.java.jdtrace.agent.VmDtracePluginAgent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 Boot-Class-Path: asm-5.0_BETA.jar asm-commons-5.0_BETA.jar asm-util-5.0_BETA.jar /usr/share/lib/java/dtrace.jar
