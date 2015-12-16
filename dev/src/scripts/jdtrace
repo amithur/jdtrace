@@ -13,7 +13,8 @@ function kill_dtrace_child_of_pid {
 }
 
 function clean_up {
-    kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print $2}'`
+#    kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print \$2}'`
+    kill -- -$$
     exit 0 
 }
 
@@ -25,9 +26,22 @@ wait_pid() {
     done
 }
 
+args=
+for arg in "$@";
+do
+  echo $arg | perl -ne 'exit(/ /? 1 : 0)'
+  if [ $? == 1 ]; then
+    args="$args '$arg'"
+  else  
+    args="$args $arg"
+  fi
+done
+
 trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
 
-${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace_1.0.jar net/java/jdtrace/client/Jdtrace $* &
+echo command: ${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace.jar net/java/jdtrace/client/Jdtrace $args
+
+${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace.jar net/java/jdtrace/client/Jdtrace $args &
 jdprocess=$!
 wait_pid $jdprocess
-
+kill -- $$
