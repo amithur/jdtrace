@@ -1,29 +1,15 @@
 #!/usr/bin/bash
-
+ 
 SCRIPT_DIR=`dirname ${0}`
 
 . ${SCRIPT_DIR}/jdtrace.properties
 
-function kill_dtrace_child_of_pid {
-    for pid in "$@"; do
-        if [ `ps -o ppid -p $pid | grep -v PPID` == $jdprocess ]; then
-	    kill $pid
-	fi
-    done
-}
-
 function clean_up {
-#    kill_dtrace_child_of_pid `ps -ef | grep "/usr/sbin/dtrace" |  grep -v grep | awk '{print \$2}'`
-    kill -- -$$
+    pid=`ptree $$ | perl -ne 'if (/\/usr\/sbin\/dtrace/) {($pid) = /^\s*(\S+)\s+/; print "$pid\n"; exit(0);}'`
+    if [ $pid ]; then
+        kill `ptree $$ | perl -ne 'if (/\/usr\/sbin\/dtrace/) {($pid) = /^\s*(\S+)\s+/; print "$pid\n"; exit(0);}'`
+    fi
     exit 0 
-}
-
-wait_pid() {
-    for pid in "$@"; do
-        while kill -0 "$pid" 2> /dev/null; do
-            sleep 0.5
-        done
-    done
 }
 
 args=
@@ -39,9 +25,7 @@ done
 
 trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
 
-echo command: ${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace.jar net/java/jdtrace/client/Jdtrace $args
-
 ${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace.jar net/java/jdtrace/client/Jdtrace $args &
 jdprocess=$!
-wait_pid $jdprocess
-kill -- $$
+wait $jdprocess
+#sleep 5
