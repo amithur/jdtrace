@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+ 
+SCRIPT_DIR=`dirname ${0}`
+
+. ${SCRIPT_DIR}/jdtrace.properties
+
+function clean_up {
+    pid=`ptree $$ | perl -ne 'if (/\/usr\/sbin\/dtrace/) {($pid) = /^\s*(\S+)\s+/; print "$pid\n"; exit(0);}'`
+    if [ $pid ]; then
+        kill `ptree $$ | perl -ne 'if (/\/usr\/sbin\/dtrace/) {($pid) = /^\s*(\S+)\s+/; print "$pid\n"; exit(0);}'`
+    fi
+    exit 0 
+}
+
+args=
+for arg in "$@";
+do
+  echo $arg | perl -ne 'exit(/ /? 1 : 0)'
+  if [ $? == 1 ]; then
+    args="$args '$arg'"
+  else  
+    args="$args $arg"
+  fi
+done
+
+trap clean_up SIGHUP SIGINT SIGTERM SIGABRT
+
+${JAVA_HOME}/bin/java -cp ${JAVA_HOME}/lib/tools.jar:${JDTRACE_HOME}/lib/jdtrace.jar net/java/jdtrace/client/Jdtrace $args &
+jdprocess=$!
+wait $jdprocess
+#sleep 5
