@@ -120,9 +120,11 @@ class AgentController {
         preprocessList();
         boolean areZonePids = false;
         for (String pid : patternsListPerPid.keySet()) {
-            System.out.println("calling getTargetHost(" + pid +")");
+            //System.out.println("calling getTargetHost(" + pid +")");
             String host = getTargetHost(pid);
-            if (host.equals("localhost")) {
+            Logger.getLogger(this.getClass().getName()).info("ignoring zone type");
+            if (true) {
+            //if (host.equals("localhost")) {
                 attachAndInitAgent(pid);
                 sendInstrumentCommand(pid, patternsListPerPid.get(pid));
             } else {
@@ -207,14 +209,16 @@ class AgentController {
         try {
             String vmId = pid;
             VirtualMachine vm = VirtualMachine.attach(vmId);
+            Logger.getLogger(this.getClass().getName()).info("vm attached");
             vms.add(vm);
-
             int port = findPortFor(pid);
             String args = "port=" + port;
             if (agentLibraryPath != null) {
                 args += " libpath=" + Utils.getJdtraceHome() + "/" + agentLibraryPath;
             }
             vm.loadAgent(agentPath, args);
+            Logger.getLogger(this.getClass().getName()).info("agent loaded");
+            
             agentStartedMap.add(pid);
             Thread.sleep(10); // let the agent load complete
             return;
@@ -242,7 +246,7 @@ class AgentController {
         }
         try {
             sendCommand(pid, cmd);
-            System.out.println("AgentConroller, sent command to " + pid +": " + cmd);
+            //System.out.println("AgentConroller, sent command to " + pid +": " + cmd);
             //sendCommand(pid, "dump");
         } catch (Exception ex) {
             Logger.getLogger(AgentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,9 +288,9 @@ class AgentController {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         outToServer.writeBytes(cmd + '\n');
-        System.out.println("sent: " + cmd);
+        //System.out.println("sent: " + cmd);
         answer = inFromServer.readLine();
-        System.out.println("answer: " + answer);
+        //System.out.println("answer: " + answer);
 
         outToServer.close();
         inFromServer.close();
@@ -296,12 +300,16 @@ class AgentController {
 
     String getTargetHost(String pid) {
         String host = "localhost";
+        
+        /*
+        * only local host is currently supported
+        
         String cmd = Utils.getJdtraceHome() + "/gettargethost " + pid;
         if (findTargetUtil != null)
             cmd = findTargetUtil + " " + pid;
         try {
             Process p = Runtime.getRuntime().exec(cmd);
-            System.out.println("Going to exec: " + cmd);
+            //System.out.println("Going to exec: " + cmd);
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             p.waitFor();
             int est = p.exitValue();
@@ -316,7 +324,7 @@ class AgentController {
             }
             if (elapsed >= 2000) {
                 // should throw an exception
-                System.err.println("looking for pid " + pid + " timeout");
+                System.err.println("jdtrace: timeout: pid " + pid + " not found");
                 System.exit(1);
             }
             String cmdOutput = br.readLine();
@@ -328,6 +336,10 @@ class AgentController {
         } catch (InterruptedException ex) {
             Logger.getLogger(AgentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        Logger.getLogger(this.getClass().getName()).info("ignoring host type");
+        host = "localhost";
+        */
 
         return host;
     }
