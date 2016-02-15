@@ -97,6 +97,9 @@ class ArgParser {
                         target = args[i];
                     }
                     break;
+                case "-q":
+                    dtraceArgs.add(args[i]);
+                    break;
                 case "-D":
                     dtraceArgs.add(args[i]);
                     i++;
@@ -150,12 +153,12 @@ class ArgParser {
                     // if argument starts with a quote, then add next arguments to the command until
                     // the closing quote appears (at the end of the argument)
                     if (args[i].startsWith("'")) {
-                        System.out.println("args["+ i +"] = " + args[i]);
+                        //System.out.println("args["+ i +"] = " + args[i]);
                         cmd = cmd.substring(1, cmd.length()); // chop leading "'"
                         if (!args[i].endsWith("'")) {
                             while (++i < args.length) {
                                 cmd += (" " + args[i]);
-                                System.out.println("args["+ i +"] = " + args[i]);
+                                //System.out.println("args["+ i +"] = " + args[i]);
                                 if (args[i].endsWith("'")) {
                                     cmd = cmd.substring(0, cmd.length() - 1); // chop trailing "'"
                                     break;
@@ -167,7 +170,7 @@ class ArgParser {
                         }
                     }
                     
-                    System.out.println("CmdlineToFile cmd: " + cmd);
+                    //System.out.println("CmdlineToFile cmd: " + cmd);
 
                     CmdlineToFile.getInstance().writeProbe("-n", cmd);
                     CmdlineToFile.getInstance().flushFile();
