@@ -29,10 +29,10 @@ class ScriptRunner {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                System.out.println("Inside Add Shutdown Hook : " + Thread.currentThread().getName());
-                if (dtraceProcess != null) {
-                    System.out.println("want to kill process " + dtraceProcess.toString());
-                }
+                //System.out.println("Inside Add Shutdown Hook : " + Thread.currentThread().getName());
+                //if (dtraceProcess != null) {
+                    //System.out.println("want to kill process " + dtraceProcess.toString());
+                //}
             }
         });
     }
