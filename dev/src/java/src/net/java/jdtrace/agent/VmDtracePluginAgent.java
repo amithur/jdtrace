@@ -78,7 +78,7 @@ public class VmDtracePluginAgent implements ClassFileTransformer, CommandExecuto
 
     public static void agentmain(String agentArgs, Instrumentation inst_) {
         inst = inst_;
-        logger.setLevel(Level.WARNING);
+        logger.setLevel(Level.FINEST);
         //methodNames = new ArrayList(128);
         parseArgs(agentArgs);
         redefine = false; // true: redefing, false: retransform

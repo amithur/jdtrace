@@ -23,16 +23,17 @@ class ScriptRunner {
     public ScriptRunner(boolean waitJdtraceProvider) {
         fileNameToWaitFor = null;
         waitForJdtraceProvider = waitJdtraceProvider;
+        Logger.getLogger(ScriptRunner.class.getName()).setLevel(Level.ALL);
     }
 
     private void attachShutDownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                System.out.println("Inside Add Shutdown Hook : " + Thread.currentThread().getName());
-                if (dtraceProcess != null) {
-                    System.out.println("want to kill process " + dtraceProcess.toString());
-                }
+                //System.out.println("Inside Add Shutdown Hook : " + Thread.currentThread().getName());
+                //if (dtraceProcess != null) {
+                    //System.out.println("want to kill process " + dtraceProcess.toString());
+                //}
             }
         });
     }
@@ -42,8 +43,10 @@ class ScriptRunner {
         boolean success;
         try {
             String cmd[] = new String[args.length + 1];
+            System.err.println("waitForJdtraceProvider = " + waitForJdtraceProvider);
             if (waitForJdtraceProvider) {
                 Runtime.getRuntime().exec(Utils.getJdtraceHome() + "/check_for_dtrace_provider.sh");
+                Logger.getLogger(ScriptRunner.class.getName()).info("waiting for: " + fileNameToWaitFor);
                 success = Utils.waitUntilFileCreated(fileNameToWaitFor, 8000);
                 if (!success) {
                     // should throw an exception!
