@@ -100,7 +100,7 @@ public class CmdlineToFile {
         Pattern pattern = Pattern.compile(nameProbePattern);
         Matcher matcher = pattern.matcher(cmd);
 
-        System.out.println("cmd: " + cmd);
+        //System.out.println("cmd: " + cmd);
         while(matcher.find()) {
             String descriptor, predicate, action;
             if (matcher.group(1) != null) {
@@ -118,9 +118,9 @@ public class CmdlineToFile {
             predicate = matcher.group(5);
             action = matcher.group(6);
             processProbe(descriptor, predicate, action);
-            System.out.println("descriptor: " + descriptor);
-            System.out.println("predicate: " + predicate);
-            System.out.println("action: " + action);
+            //System.out.println("descriptor: " + descriptor);
+            //System.out.println("predicate: " + predicate);
+            //System.out.println("action: " + action);
         }
     }
 }
