@@ -3,7 +3,7 @@ jdtrace - a DTrace based tool for Java
 = Efficient DTrace Java profiling tool Wiki =
 
 
-== General Description
+= General Description
 ----
 JDTrace is a DTrace wraparound written in Java, which adds Java code
 tracing probes. JDTrace adds the jdtrace DTrace provider. JDTrace
@@ -25,7 +25,7 @@ self->classname and
 self->methodname
 both contain the appropriate class and method names for the Java method in context 
 
-== Download and Install
+=Download and Install
 ----
 #Download jdtrace_1.1.0.tar.gz from [https://java.net/projects/jdtrace/downloads] (jdtrace tool for Java 8)
 #Extract the content to your prefered location
@@ -35,7 +35,7 @@ both contain the appropriate class and method names for the Java method in conte
 ##Set JAVA_HOME to your Java 8 JDK
 #You are done
 
-== How to Run
+= How to Run
 ----
 See next section for setting DTrace permission for a user. JDTrace will not be able to execute without setting DTrace permission to the user who runs the tool.
 Run the same as dtrace. See current limitation below, though.
@@ -52,7 +52,7 @@ As root user, run:
  # usermod -K defaultpriv=basic,dtrace_proc,dtrace_user,dtrace_kernel ''login_id''
 
 
-== Current Limitations
+= Current Limitations
 ----
 #jdtrace 1.1.0 currently implements a naive D language parser with these limitations:
 #probe description of jdtrace provider does not support comma separated list of probes yet
